@@ -1,11 +1,11 @@
 package application;
 
-import models.entities.boardgame.Position;
+import models.entities.boardgame.*;
 
 public class Program {
     public static void main(String[] args) {
-        Position pos = new Position(0, 3);
+        Board board = new Board(8, 8);
 
-        System.out.println(pos);
+        System.out.println(board);
     }
 }
