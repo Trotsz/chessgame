@@ -1,4 +1,4 @@
-package models.entities.chess;
+package models.enums;
 
 public enum Color {
     BLACK,

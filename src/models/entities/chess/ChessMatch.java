@@ -2,12 +2,16 @@ package models.entities.chess;
 
 import models.entities.boardgame.Board;
 import models.entities.boardgame.Piece;
+import models.entities.boardgame.Position;
+import models.entities.chess.pieces.*;
+import models.enums.Color;
 
 public class ChessMatch {
     private Board board;
 
     public ChessMatch() {
         this.board = new Board(8, 8);
+        this.initialSetup();
     }
 
     public ChessPiece[][] getPieces() {
@@ -20,5 +24,9 @@ public class ChessMatch {
         }
 
         return matrix;
+    }
+
+    private void initialSetup() {
+
     }
 }

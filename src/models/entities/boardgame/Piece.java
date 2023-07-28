@@ -24,5 +24,5 @@ public abstract class Piece {
     }
 
     public abstract Piece[][] possibleMoves();
-    public abstract Boolean isThereAnyPossibleMove();
+    public abstract boolean isThereAnyPossibleMove();
 }

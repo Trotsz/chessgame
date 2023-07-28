@@ -1,7 +1,5 @@
 package models.entities.boardgame;
 
-import java.util.List;
-import java.util.ArrayList;
 public class Board {
     private Integer rows;
     private Integer columns;
@@ -31,11 +29,10 @@ public class Board {
         return this.pieces[position.getRow()][position.getColumn()];
     }
 
-//    public void setPieces(Piece piece, Position position) {
-//        if(piece.isThereAnyPossibleMove()) {
-//
-//        }
-//        this.pieces[position.getRow()][position.getColumn()] = piece;
-//        piece.setPosition(position);
-//    }
+    public void placePiece(Piece piece, Position position) {
+        if(piece.isThereAnyPossibleMove()) {}
+
+        this.pieces[position.getRow()][position.getColumn()] = piece;
+        piece.position = position;
+    }
 }

@@ -2,6 +2,7 @@ package models.entities.chess;
 
 import models.entities.boardgame.Piece;
 import models.entities.boardgame.Board;
+import models.enums.Color;
 
 public abstract class ChessPiece extends Piece {
     private Color color;
