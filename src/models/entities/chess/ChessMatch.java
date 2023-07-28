@@ -1,8 +1,6 @@
 package models.entities.chess;
 
-import models.entities.boardgame.Board;
-import models.entities.boardgame.Piece;
-import models.entities.boardgame.Position;
+import models.entities.boardgame.*;
 import models.entities.chess.pieces.*;
 import models.enums.Color;
 
@@ -27,6 +25,8 @@ public class ChessMatch {
     }
 
     private void initialSetup() {
-
+        this.board.placePiece(new Rook(Color.BLACK, this.board), new Position(2, 3));
+        this.board.placePiece(new King(Color.BLACK, this.board), new Position(7, 3));
+        // ongoing development
     }
 }

@@ -6,7 +6,7 @@ import models.entities.boardgame.Position;
 import models.enums.Color;
 import models.entities.boardgame.Board;
 
-public class King extends ChessPiece {
+public final class King extends ChessPiece {
     private static String id = "K";
 
     public King() {}

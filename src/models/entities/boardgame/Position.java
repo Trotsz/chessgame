@@ -10,6 +10,7 @@ public class Position {
         this.row = row;
         this.column = column;
     }
+
     public int getRow() {
         return this.row;
     }
@@ -25,6 +26,6 @@ public class Position {
 
     @Override
     public String toString() {
-        return "Row: " + this.row + ", Column: " + this.column;
+        return "(" + this.row + ", " + this.column + ")";
     }
 }
