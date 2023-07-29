@@ -29,7 +29,6 @@ public final class King extends ChessPiece {
         return false;
     }
 
-
     @Override
     public String toString() {
         return id;

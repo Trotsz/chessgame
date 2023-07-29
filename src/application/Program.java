@@ -6,7 +6,6 @@ import models.exceptions.BoardException;
 
 public class Program {
     public static void main(String[] args) {
-
         try {
             ChessMatch cm = new ChessMatch();
 
