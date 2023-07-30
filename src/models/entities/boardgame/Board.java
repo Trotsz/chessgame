@@ -1,5 +1,6 @@
 package models.entities.boardgame;
 
+import models.entities.chess.ChessPiece;
 import models.exceptions.BoardException;
 
 public class Board {
@@ -43,11 +44,11 @@ public class Board {
     }
 
     public void placePiece(Piece piece, Position position) {
-        if(this.isThereAPiece(position)) {
-            throw new BoardException("Error: The targeted space is not empty.");
-        }
+//        if(this.isThereAPiece(position)) {
+//            throw new BoardException("Error: The targeted space is occupied by one of your pieces.");
+//        }
 
-        if(piece.isThereAnyPossibleMove()) {}
+        // if(piece.isThereAnyPossibleMove()) {}
 
         this.pieces[position.getRow()][position.getColumn()] = piece;
         piece.position = position;
@@ -63,9 +64,19 @@ public class Board {
 
     public boolean isThereAPiece(Position position) {
         if(!this.doesThePositionExist(position)) {
-            throw new BoardException("Error: the position " + position + " does not exist.");
+            throw new BoardException("Error: the position (" + position + ") does not exist.");
         }
 
         return this.piece(position) != null;
+    }
+
+    public Piece removePiece(Position position) {
+        Piece p = this.piece(position);
+
+        this.pieces[position.getRow()][position.getColumn()] = null;
+
+        if(p != null) p.position = null;
+
+        return p;
     }
 }

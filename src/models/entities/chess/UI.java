@@ -2,6 +2,9 @@ package models.entities.chess;
 
 import models.enums.Color;
 
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
 public class UI {
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_BLACK = "\u001B[30m";
@@ -23,6 +26,19 @@ public class UI {
     public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
 
     public UI() {}
+
+    public static ChessPosition readChessPosition(Scanner sc) {
+        try {
+            String s = sc.nextLine();
+
+            char column = s.charAt(0);
+            int row = Integer.parseInt(String.valueOf(s.charAt(1)));
+
+            return new ChessPosition(column, row);
+        } catch(InputMismatchException e) {
+            throw new InputMismatchException("Error with input values. Values: a1 - h8");
+        }
+    }
 
     public static void printBoard(ChessPiece[][] chessPieces) {
         for(int i = 0; i < chessPieces.length; i++) {

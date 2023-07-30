@@ -3,6 +3,7 @@ package models.entities.chess;
 import models.entities.boardgame.*;
 import models.entities.chess.pieces.*;
 import models.enums.Color;
+import models.exceptions.ChessException;
 
 public class ChessMatch {
     private Board board;
@@ -28,19 +29,43 @@ public class ChessMatch {
         this.board.placePiece(piece, new ChessPosition(column, row).toPosition());
     }
 
-    private void initialSetup() {
-        placeNewPiece('c', 1, new Rook(Color.WHITE, this.board));
-        placeNewPiece('c', 2, new Rook(Color.WHITE, this.board));
-        placeNewPiece('d', 2, new Rook(Color.WHITE, this.board));
-        placeNewPiece('e', 2, new Rook(Color.WHITE, this.board));
-        placeNewPiece('e', 1, new Rook(Color.WHITE, this.board));
-        placeNewPiece('d', 1, new King(Color.WHITE, this.board));
+    public ChessPiece performChessMove(ChessPosition sourcePosition, ChessPosition targetPosition) {
+        Position sourceP = sourcePosition.toPosition();
+        Position targetP = targetPosition.toPosition();
 
-        placeNewPiece('c', 7, new Rook(Color.BLACK, this.board));
-        placeNewPiece('c', 8, new Rook(Color.BLACK, this.board));
-        placeNewPiece('d', 7, new Rook(Color.BLACK, this.board));
-        placeNewPiece('e', 7, new Rook(Color.BLACK, this.board));
-        placeNewPiece('e', 8, new Rook(Color.BLACK, this.board));
-        placeNewPiece('d', 8, new King(Color.BLACK, this.board));
+        this.validateSourcePosition(sourceP);
+
+        Piece capturedPiece = this.makeMove(sourceP, targetP);
+
+        return (ChessPiece) capturedPiece;
+    }
+
+    private Piece makeMove(Position sourceP, Position targetP) {
+        Piece capturedPiece = this.board.removePiece(targetP);
+
+        this.board.placePiece(this.board.piece(sourceP), targetP);
+        this.board.removePiece(sourceP);
+
+        return capturedPiece;
+    }
+
+    private void validateSourcePosition(Position sourceP) {
+        if(!this.board.isThereAPiece(sourceP)) throw new ChessException("There is no piece to be moved in the source position.");
+    }
+
+    private void initialSetup() {
+        this.placeNewPiece('c', 1, new Rook(Color.WHITE, this.board));
+        this.placeNewPiece('c', 2, new Rook(Color.WHITE, this.board));
+        this.placeNewPiece('d', 2, new Rook(Color.WHITE, this.board));
+        this.placeNewPiece('e', 2, new Rook(Color.WHITE, this.board));
+        this.placeNewPiece('e', 1, new Rook(Color.WHITE, this.board));
+        this.placeNewPiece('d', 1, new King(Color.WHITE, this.board));
+
+        this.placeNewPiece('c', 7, new Rook(Color.BLACK, this.board));
+        this.placeNewPiece('c', 8, new Rook(Color.BLACK, this.board));
+        this.placeNewPiece('d', 7, new Rook(Color.BLACK, this.board));
+        this.placeNewPiece('e', 7, new Rook(Color.BLACK, this.board));
+        this.placeNewPiece('e', 8, new Rook(Color.BLACK, this.board));
+        this.placeNewPiece('d', 8, new King(Color.BLACK, this.board));
     }
 }
