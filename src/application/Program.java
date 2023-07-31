@@ -4,6 +4,7 @@ import models.entities.boardgame.*;
 import models.entities.chess.*;
 import models.exceptions.BoardException;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Program {
@@ -12,9 +13,10 @@ public class Program {
         ChessMatch cm = new ChessMatch();
 
         try {
-            UI.printBoard(cm.getPieces());
-
             while(true) {
+                UI.clearScreen();
+                UI.printBoard(cm.getPieces());
+
                 System.out.print("Piece to move: ");
                 ChessPosition sourcePosition = UI.readChessPosition(sc);
 
@@ -22,12 +24,11 @@ public class Program {
                 ChessPosition targetPosition = UI.readChessPosition(sc);
 
                 ChessPiece capturedPiece = cm.performChessMove(sourcePosition, targetPosition);
-
-                System.out.println();
-                UI.printBoard(cm.getPieces());
             }
         } catch(BoardException e) {
-            System.out.println(e.getMessage());
+            System.out.println("\u001B[31m" + e.getMessage() + "\u001B[0m");
+        } catch(InputMismatchException e) {
+            System.out.println("\u001B[31mInput Error: " + e.getMessage() + "\u001B[0m");
         }
     }
 }
