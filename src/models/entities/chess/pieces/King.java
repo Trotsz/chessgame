@@ -20,8 +20,10 @@ public final class King extends ChessPiece {
     }
 
     @Override
-    public Piece[][] possibleMoves() {
-        return new Piece[][]{};
+    public boolean[][] possibleMoves() {
+        boolean[][] pMoves = new boolean[this.getBoard().getRows()][this.getBoard().getRows()];
+
+        return pMoves;
     }
 
     @Override
