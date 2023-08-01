@@ -27,11 +27,6 @@ public final class King extends ChessPiece {
     }
 
     @Override
-    public boolean isThereAnyPossibleMove() {
-        return false;
-    }
-
-    @Override
     public String toString() {
         return id;
     }

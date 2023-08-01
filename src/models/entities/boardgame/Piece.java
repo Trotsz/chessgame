@@ -35,5 +35,4 @@ public abstract class Piece {
     }
 
     public abstract boolean[][] possibleMoves();
-
 }

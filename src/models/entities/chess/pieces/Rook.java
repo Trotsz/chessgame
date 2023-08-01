@@ -23,26 +23,66 @@ public final class Rook extends ChessPiece {
     public boolean[][] possibleMoves() {
         boolean[][] pMoves = new boolean[this.getBoard().getRows()][this.getBoard().getColumns()];
 
-        ChessPiece p = (ChessPiece) this.getBoard().piece(0, 1);
+        Position pos = this.position;
 
-        for(int i = 0; i < pMoves.length; i++) {
-            for(int j = 0; j < pMoves[0].length; j++) {
-                if(i == this.position.getRow() && !this.getBoard().isThereAPiece(new Position(i, j))) {
-                    pMoves[i][j] = true;
-                } else if(i == this.position.getRow() && ((ChessPiece) this.getBoard().piece(i, j)).getColor() != this.getColor()) {
-                    pMoves[i][j] = true;
-                }
+        // Above
+        pos.setValues(this.position.getRow() - 1, this.position.getColumn());
 
-                if(j == this.position.getColumn()) {
+        while(this.getBoard().doesThePositionExist(pos) && !this.getBoard().isThereAPiece(pos)) {
+            pMoves[pos.getRow()][pos.getColumn()] = true;
 
-                }
-            }
+            pos.setRow(pos.getRow() - 1);
         }
-    }
 
-    @Override
-    public boolean isThereAnyPossibleMove() {
-        return false;
+        if(this.getBoard().doesThePositionExist(pos) && this.isThereOpponentPiece(pos)) {
+            pMoves[pos.getRow()][pos.getColumn()] = true;
+        }
+
+        // Left side
+
+        pos.setValues(this.position.getRow(), this.position.getColumn() - 1);
+
+        while(this.getBoard().doesThePositionExist(pos) && !this.getBoard().isThereAPiece(pos)) {
+            pMoves[pos.getRow()][pos.getColumn()] = true;
+
+            pos.setColumn(pos.getColumn() - 1);
+        }
+
+        if(this.getBoard().doesThePositionExist(pos) && this.isThereOpponentPiece(pos)) {
+            pMoves[pos.getRow()][pos.getColumn()] = true;
+        }
+
+        // Right side
+
+        pos.setValues(this.position.getRow(), this.position.getColumn() + 1);
+
+        while(this.getBoard().doesThePositionExist(pos) && !this.getBoard().isThereAPiece(pos)) {
+            pMoves[pos.getRow()][pos.getColumn()] = true;
+
+            pos.setColumn(pos.getColumn() + 1);
+        }
+
+        if(this.getBoard().doesThePositionExist(pos) && this.isThereOpponentPiece(pos)) {
+            pMoves[pos.getRow()][pos.getColumn()] = true;
+        }
+
+        // Below
+
+        pos.setValues(this.position.getRow() + 1, this.position.getColumn());
+
+        // FIXME: 31/07/2023 'error when trying to move c2 to c8'
+
+        while(this.getBoard().doesThePositionExist(pos) && !this.getBoard().isThereAPiece(pos)) {
+            pMoves[pos.getRow()][pos.getColumn()] = true;
+
+            pos.setRow(pos.getRow() + 1);
+        }
+
+        if(this.getBoard().doesThePositionExist(pos) && this.isThereOpponentPiece(pos)) {
+            pMoves[pos.getRow()][pos.getColumn()] = true;
+        }
+
+        return pMoves;
     }
 
     @Override

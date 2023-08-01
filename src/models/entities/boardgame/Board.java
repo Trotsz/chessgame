@@ -44,12 +44,6 @@ public class Board {
     }
 
     public void placePiece(Piece piece, Position position) {
-//        if(this.isThereAPiece(position)) {
-//            throw new BoardException("Error: The targeted space is occupied by one of your pieces.");
-//        }
-
-        // if(piece.isThereAnyPossibleMove()) {}
-
         this.pieces[position.getRow()][position.getColumn()] = piece;
         piece.position = position;
     }
