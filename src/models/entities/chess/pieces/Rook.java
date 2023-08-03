@@ -23,9 +23,10 @@ public final class Rook extends ChessPiece {
     public boolean[][] possibleMoves() {
         boolean[][] pMoves = new boolean[this.getBoard().getRows()][this.getBoard().getColumns()];
 
-        Position pos = this.position;
+        Position pos = new Position(this.position.getRow(), this.position.getColumn());
 
         // Above
+
         pos.setValues(this.position.getRow() - 1, this.position.getColumn());
 
         while(this.getBoard().doesThePositionExist(pos) && !this.getBoard().isThereAPiece(pos)) {
@@ -69,8 +70,6 @@ public final class Rook extends ChessPiece {
         // Below
 
         pos.setValues(this.position.getRow() + 1, this.position.getColumn());
-
-        // FIXME: 31/07/2023 'error when trying to move c2 to c8'
 
         while(this.getBoard().doesThePositionExist(pos) && !this.getBoard().isThereAPiece(pos)) {
             pMoves[pos.getRow()][pos.getColumn()] = true;

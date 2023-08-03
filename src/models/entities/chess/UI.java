@@ -1,6 +1,7 @@
 package models.entities.chess;
 
 import models.enums.Color;
+import models.entities.boardgame.Position;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -16,14 +17,7 @@ public class UI {
     public static final String ANSI_CYAN = "\u001B[36m";
     public static final String ANSI_WHITE = "\u001B[37m";
 
-    public static final String ANSI_BLACK_BACKGROUND = "\u001B[40m";
-    public static final String ANSI_RED_BACKGROUND = "\u001B[41m";
-    public static final String ANSI_GREEN_BACKGROUND = "\u001B[42m";
-    public static final String ANSI_YELLOW_BACKGROUND = "\u001B[43m";
     public static final String ANSI_BLUE_BACKGROUND = "\u001B[44m";
-    public static final String ANSI_PURPLE_BACKGROUND = "\u001B[45m";
-    public static final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
-    public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
 
     public UI() {}
 
@@ -44,16 +38,30 @@ public class UI {
         for(int i = 0; i < chessPieces.length; i++) {
             System.out.print((8 - i) + " ");
             for(int j = 0; j < chessPieces[0].length; j++) {
-                printPiece(chessPieces[i][j]);
+                printPiece(chessPieces[i][j], false);
             }
             System.out.println();
         }
         System.out.println("  a b c d e f g h");
     }
 
-    private static void printPiece(ChessPiece piece) {
+    public static void printBoard(ChessPiece[][] chessPieces, boolean[][] possibleMoves) {
+        for(int i = 0; i < possibleMoves.length; i++) {
+            System.out.print(8 - i + " ");
+            for(int j = 0; j < possibleMoves[0].length; j++) {
+                printPiece(chessPieces[i][j], possibleMoves[i][j]);
+            }
+            System.out.println();
+        }
+        System.out.println("  a b c d e f g h");
+    }
+
+    private static void printPiece(ChessPiece piece, boolean possibleMove) {
+        if(possibleMove) {
+            System.out.print(ANSI_BLUE_BACKGROUND);
+        }
         if(piece == null) {
-            System.out.print("-");
+            System.out.print("-" + ANSI_RESET);
         } else {
             if(piece.getColor() == Color.BLACK) {
                 System.out.print(ANSI_YELLOW + piece + ANSI_RESET);

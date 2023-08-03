@@ -44,8 +44,10 @@ public class ChessMatch {
     private Piece makeMove(Position sourceP, Position targetP) {
         Piece capturedPiece = this.board.removePiece(targetP);
 
-        this.board.placePiece(this.board.piece(sourceP), targetP);
+        Piece p = this.board.piece(sourceP);
+
         this.board.removePiece(sourceP);
+        this.board.placePiece(p, targetP);
 
         return capturedPiece;
     }
@@ -62,13 +64,23 @@ public class ChessMatch {
         }
     }
 
+    public boolean[][] possibleMoves(ChessPosition sourceP) {
+        Position convertedSourceP = sourceP.toPosition();
+
+        this.validateSourcePosition(convertedSourceP);
+
+        boolean[][] pMoves = this.board.piece(convertedSourceP).possibleMoves();
+
+        return pMoves;
+    }
+
     private void initialSetup() {
         this.placeNewPiece('c', 1, new Rook(Color.WHITE, this.board));
         this.placeNewPiece('c', 2, new Rook(Color.WHITE, this.board));
         this.placeNewPiece('d', 2, new Rook(Color.WHITE, this.board));
         this.placeNewPiece('e', 2, new Rook(Color.WHITE, this.board));
         this.placeNewPiece('e', 1, new Rook(Color.WHITE, this.board));
-        this.placeNewPiece('d', 1, new King(Color.WHITE, this.board));
+        this.placeNewPiece('d', 1, new Rook(Color.WHITE, this.board));
 
         this.placeNewPiece('c', 7, new Rook(Color.BLACK, this.board));
         this.placeNewPiece('c', 8, new Rook(Color.BLACK, this.board));

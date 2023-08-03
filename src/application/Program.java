@@ -12,23 +12,25 @@ public class Program {
         Scanner sc = new Scanner(System.in);
         ChessMatch cm = new ChessMatch();
 
-        try {
-            while(true) {
+        while(true) {
+            try {
                 UI.clearScreen();
                 UI.printBoard(cm.getPieces());
 
                 System.out.print("Piece to move: ");
                 ChessPosition sourcePosition = UI.readChessPosition(sc);
 
+                UI.printBoard(cm.getPieces(), cm.possibleMoves(sourcePosition));
+
                 System.out.print("Target position: ");
                 ChessPosition targetPosition = UI.readChessPosition(sc);
 
                 ChessPiece capturedPiece = cm.performChessMove(sourcePosition, targetPosition);
+            } catch (BoardException e) {
+                System.out.println("\u001B[31m" + e.getMessage() + "\u001B[0m");
+            } catch (InputMismatchException e) {
+                System.out.println("\u001B[31mInput Error: " + e.getMessage() + "\u001B[0m");
             }
-        } catch(BoardException e) {
-            System.out.println("\u001B[31m" + e.getMessage() + "\u001B[0m");
-        } catch(InputMismatchException e) {
-            System.out.println("\u001B[31mInput Error: " + e.getMessage() + "\u001B[0m");
         }
     }
 }
