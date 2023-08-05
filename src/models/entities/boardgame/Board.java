@@ -58,7 +58,7 @@ public class Board {
 
     public boolean isThereAPiece(Position position) {
         if(!this.doesThePositionExist(position)) {
-            throw new BoardException("Error: the position (" + position + ") does not exist.");
+            throw new BoardException("Error: the position " + position + " does not exist.");
         }
 
         return this.piece(position) != null;

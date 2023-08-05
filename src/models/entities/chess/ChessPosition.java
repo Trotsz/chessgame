@@ -21,8 +21,8 @@ public class ChessPosition {
     public char getColumn() { return this.column; }
 
     protected Position toPosition() {
-        int formattedColumn = this.column - 'a';
         int formattedRow = 8 - this.row;
+        int formattedColumn = this.column - 'a';
 
         return new Position(formattedRow, formattedColumn);
     }

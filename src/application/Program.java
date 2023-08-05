@@ -26,10 +26,12 @@ public class Program {
                 ChessPosition targetPosition = UI.readChessPosition(sc);
 
                 ChessPiece capturedPiece = cm.performChessMove(sourcePosition, targetPosition);
-            } catch (BoardException e) {
+            } catch(BoardException e) {
                 System.out.println("\u001B[31m" + e.getMessage() + "\u001B[0m");
-            } catch (InputMismatchException e) {
+            } catch(InputMismatchException e) {
                 System.out.println("\u001B[31mInput Error: " + e.getMessage() + "\u001B[0m");
+            } catch(Exception e) {
+                System.out.println("Unexpected error: " + e.getMessage());
             }
         }
     }

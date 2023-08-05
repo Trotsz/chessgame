@@ -80,7 +80,7 @@ public class ChessMatch {
         this.placeNewPiece('d', 2, new Rook(Color.WHITE, this.board));
         this.placeNewPiece('e', 2, new Rook(Color.WHITE, this.board));
         this.placeNewPiece('e', 1, new Rook(Color.WHITE, this.board));
-        this.placeNewPiece('d', 1, new Rook(Color.WHITE, this.board));
+        this.placeNewPiece('d', 1, new King(Color.WHITE, this.board));
 
         this.placeNewPiece('c', 7, new Rook(Color.BLACK, this.board));
         this.placeNewPiece('c', 8, new Rook(Color.BLACK, this.board));

@@ -23,7 +23,7 @@ public final class Rook extends ChessPiece {
     public boolean[][] possibleMoves() {
         boolean[][] pMoves = new boolean[this.getBoard().getRows()][this.getBoard().getColumns()];
 
-        Position pos = new Position(this.position.getRow(), this.position.getColumn());
+        Position pos = new Position();
 
         // Above
 
