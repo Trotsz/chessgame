@@ -7,10 +7,30 @@ import models.exceptions.ChessException;
 
 public class ChessMatch {
     private Board board;
+    private Integer turn;
+    private Color currentPlayer;
 
     public ChessMatch() {
         this.board = new Board(8, 8);
+        this.turn = 1;
+        this.currentPlayer = Color.WHITE;
         this.initialSetup();
+    }
+
+    public int getTurn() {
+        return this.turn;
+    }
+
+    public Color getCurrentPlayer() {
+        return this.currentPlayer;
+    }
+
+    public void setTurn(int turn) {
+        this.turn = turn;
+    }
+
+    public void setCurrentPlayer(Color currentPlayer) {
+        this.currentPlayer = currentPlayer;
     }
 
     public ChessPiece[][] getPieces() {
@@ -25,8 +45,9 @@ public class ChessMatch {
         return matrix;
     }
 
-    private void placeNewPiece(char column, int row, Piece piece) {
-        this.board.placePiece(piece, new ChessPosition(column, row).toPosition());
+    private void nextTurn() {
+        this.turn += 1;
+        this.currentPlayer = this.currentPlayer == Color.WHITE ? Color.BLACK : Color.WHITE;
     }
 
     public ChessPiece performChessMove(ChessPosition sourcePosition, ChessPosition targetPosition) {
@@ -37,6 +58,8 @@ public class ChessMatch {
         this.validateTargetPosition(sourceP, targetP);
 
         Piece capturedPiece = this.makeMove(sourceP, targetP);
+
+        this.nextTurn();
 
         return (ChessPiece) capturedPiece;
     }
@@ -54,6 +77,7 @@ public class ChessMatch {
 
     private void validateSourcePosition(Position sourceP) {
         if(!this.board.isThereAPiece(sourceP)) throw new ChessException("There is no piece to be moved in the source position.");
+        if(((ChessPiece) this.board.piece(sourceP)).getColor() != this.currentPlayer) throw new ChessException("That piece is not yours.");
         if(!this.board.piece(sourceP).isThereAnyPossibleMove()) throw new ChessException("That piece doesn't have any possible move.");
     }
 
@@ -72,6 +96,10 @@ public class ChessMatch {
         boolean[][] pMoves = this.board.piece(convertedSourceP).possibleMoves();
 
         return pMoves;
+    }
+
+    private void placeNewPiece(char column, int row, Piece piece) {
+        this.board.placePiece(piece, new ChessPosition(column, row).toPosition());
     }
 
     private void initialSetup() {

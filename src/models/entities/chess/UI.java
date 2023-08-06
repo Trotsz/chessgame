@@ -34,6 +34,15 @@ public class UI {
         }
     }
 
+    public static void printMatch(ChessMatch chessMatch) {
+        int turn = chessMatch.getTurn();
+        Color currentPlayer = chessMatch.getCurrentPlayer();
+
+        String color = chessMatch.getCurrentPlayer() == Color.WHITE ? ANSI_WHITE : ANSI_YELLOW;
+
+        System.out.println("Turn: " + turn + "\nCurrent player: " + color + currentPlayer + ANSI_RESET + "\n");
+    }
+
     public static void printBoard(ChessPiece[][] chessPieces) {
         for(int i = 0; i < chessPieces.length; i++) {
             System.out.print((8 - i) + " ");
