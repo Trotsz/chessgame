@@ -3,7 +3,9 @@ package models.entities.chess;
 import models.enums.Color;
 import models.entities.boardgame.Position;
 
+import java.util.Arrays;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
 public class UI {
@@ -34,9 +36,13 @@ public class UI {
         }
     }
 
-    public static void printMatch(ChessMatch chessMatch) {
+    public static void printMatch(ChessMatch chessMatch, List<ChessPiece> capturedPieces) {
         int turn = chessMatch.getTurn();
         Color currentPlayer = chessMatch.getCurrentPlayer();
+
+        if(capturedPieces.size() > 0) {
+            printCapturedPieces(capturedPieces);
+        }
 
         String color = chessMatch.getCurrentPlayer() == Color.WHITE ? ANSI_WHITE : ANSI_YELLOW;
 
@@ -80,6 +86,24 @@ public class UI {
         }
 
         System.out.print(" ");
+    }
+
+    private static void printCapturedPieces(List<ChessPiece> capturedPieces) {
+        List<ChessPiece> whitePieces = capturedPieces.stream().filter(x -> x.getColor() == Color.WHITE).toList();
+        List<ChessPiece> blackPieces = capturedPieces.stream().filter(x -> x.getColor() == Color.BLACK).toList();
+
+        System.out.println("Captured Pieces:");
+        System.out.print("White pieces: ");
+        System.out.print(ANSI_WHITE);
+        System.out.println(Arrays.toString(whitePieces.toArray())); // Another way to print arrays
+        System.out.print(ANSI_RESET);
+
+        System.out.print("Black pieces: ");
+        System.out.print(ANSI_BLACK);
+        System.out.println(Arrays.toString(blackPieces.toArray()));
+        System.out.print(ANSI_RESET);
+
+        System.out.println();
     }
 
     public static void clearScreen() {

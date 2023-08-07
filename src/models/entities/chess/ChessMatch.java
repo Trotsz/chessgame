@@ -5,15 +5,23 @@ import models.entities.chess.pieces.*;
 import models.enums.Color;
 import models.exceptions.ChessException;
 
+import java.util.List;
+import java.util.ArrayList;
+
 public class ChessMatch {
-    private Board board;
+    private final Board board;
     private Integer turn;
     private Color currentPlayer;
+
+    private List<Piece> piecesOnTheBoard;
+    private List<Piece> capturedPieces;
 
     public ChessMatch() {
         this.board = new Board(8, 8);
         this.turn = 1;
         this.currentPlayer = Color.WHITE;
+        this.piecesOnTheBoard = new ArrayList<>();
+        this.capturedPieces = new ArrayList<>();
         this.initialSetup();
     }
 
@@ -66,11 +74,15 @@ public class ChessMatch {
 
     private Piece makeMove(Position sourceP, Position targetP) {
         Piece capturedPiece = this.board.removePiece(targetP);
-
         Piece p = this.board.piece(sourceP);
 
         this.board.removePiece(sourceP);
         this.board.placePiece(p, targetP);
+
+        if(capturedPiece != null) {
+            this.capturedPieces.add(capturedPiece);
+            this.piecesOnTheBoard.remove(capturedPiece);
+        }
 
         return capturedPiece;
     }
@@ -98,8 +110,9 @@ public class ChessMatch {
         return pMoves;
     }
 
-    private void placeNewPiece(char column, int row, Piece piece) {
+    private void placeNewPiece(char column, int row, ChessPiece piece) {
         this.board.placePiece(piece, new ChessPosition(column, row).toPosition());
+        this.piecesOnTheBoard.add(piece);
     }
 
     private void initialSetup() {

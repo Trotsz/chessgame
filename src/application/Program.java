@@ -1,24 +1,26 @@
 package application;
 
-import models.entities.boardgame.*;
 import models.entities.chess.*;
-import models.enums.Color;
 import models.exceptions.BoardException;
 
 import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.util.List;
+import java.util.ArrayList;
 
 public class Program {
     public static void main(String[] args) throws IOException {
         Scanner sc = new Scanner(System.in);
         ChessMatch cm = new ChessMatch();
 
+        List<ChessPiece> capturedPieces = new ArrayList<>();
+
         while(true) {
             try {
                 UI.clearScreen();
                 UI.printBoard(cm.getPieces());
-                UI.printMatch(cm);
+                UI.printMatch(cm, capturedPieces);
 
                 System.out.print("Piece to move: ");
                 ChessPosition sourcePosition = UI.readChessPosition(sc);
@@ -29,6 +31,9 @@ public class Program {
                 ChessPosition targetPosition = UI.readChessPosition(sc);
 
                 ChessPiece capturedPiece = cm.performChessMove(sourcePosition, targetPosition);
+                if(capturedPiece != null) {
+                    capturedPieces.add(capturedPiece);
+                }
             } catch(BoardException e) {
                 System.out.println("\u001B[31m" + e.getMessage() + "\u001B[0m");
             } catch(InputMismatchException e) {
