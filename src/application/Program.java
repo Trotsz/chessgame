@@ -16,10 +16,9 @@ public class Program {
 
         List<ChessPiece> capturedPieces = new ArrayList<>();
 
-        while(true) {
+        while(!cm.getCheckMate()) {
             try {
                 UI.clearScreen();
-                UI.printBoard(cm.getPieces());
                 UI.printMatch(cm, capturedPieces);
 
                 System.out.print("Piece to move: ");
@@ -42,5 +41,8 @@ public class Program {
                 System.out.println("Unexpected error: " + e.getMessage());
             }
         }
+
+        UI.clearScreen();
+        UI.printMatch(cm, capturedPieces);
     }
 }

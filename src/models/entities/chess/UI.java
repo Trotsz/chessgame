@@ -37,6 +37,8 @@ public class UI {
     }
 
     public static void printMatch(ChessMatch chessMatch, List<ChessPiece> capturedPieces) {
+        printBoard(chessMatch.getPieces());
+
         int turn = chessMatch.getTurn();
         Color currentPlayer = chessMatch.getCurrentPlayer();
 
@@ -46,12 +48,15 @@ public class UI {
 
         String color = chessMatch.getCurrentPlayer() == Color.WHITE ? ANSI_WHITE : ANSI_YELLOW;
 
-        System.out.println("Turn: " + turn + "\nCurrent player: " + color + currentPlayer + ANSI_RESET + "\n");
-
-        if(chessMatch.getCheck()) {
-            System.out.println("CHECK!");
+            if(!chessMatch.getCheckMate()) {
+                System.out.println("Turn: " + turn + "\nCurrent player: " + color + currentPlayer + ANSI_RESET + "\n");
+                if(chessMatch.getCheck()) {
+                    System.out.println("CHECK!");
+                }
+            } else {
+                System.out.println("CHECK MATE! Winner: " + color + chessMatch.getCurrentPlayer() + ANSI_RESET);
+            }
         }
-    }
 
     public static void printBoard(ChessPiece[][] chessPieces) {
         for(int i = 0; i < chessPieces.length; i++) {
@@ -103,7 +108,7 @@ public class UI {
         System.out.print(ANSI_RESET);
 
         System.out.print("Black pieces: ");
-        System.out.print(ANSI_BLACK);
+        System.out.print(ANSI_YELLOW);
         System.out.println(Arrays.toString(blackPieces.toArray()));
         System.out.print(ANSI_RESET);
 
