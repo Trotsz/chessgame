@@ -67,9 +67,9 @@ public class Board {
     public Piece removePiece(Position position) {
         Piece p = this.piece(position);
 
-        this.pieces[position.getRow()][position.getColumn()] = null;
-
         if(p != null) p.position = null;
+
+        this.pieces[position.getRow()][position.getColumn()] = null;
 
         return p;
     }
