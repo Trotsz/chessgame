@@ -5,6 +5,7 @@ import models.enums.Color;
 
 public abstract class ChessPiece extends Piece {
     private Color color;
+    private Integer moveCount;
 
     public ChessPiece() {}
 
@@ -15,6 +16,18 @@ public abstract class ChessPiece extends Piece {
 
     public Color getColor() {
         return this.color;
+    }
+
+    public int getMoveCount() {
+        return this.moveCount;
+    }
+
+    protected void increaseMoveCount(int amount) {
+        this.moveCount += amount;
+    }
+
+    protected void decreaseMoveCount(int amount) {
+        this.moveCount -= amount;
     }
 
     public ChessPosition getChessPosition() {

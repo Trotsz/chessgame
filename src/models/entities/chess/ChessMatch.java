@@ -85,6 +85,8 @@ public class ChessMatch {
         this.check = this.checkTest(this.opponent(this.currentPlayer));
         this.checkMate = this.checkMateTest(this.opponent(this.currentPlayer));
 
+        ((ChessPiece) this.board.piece(targetP)).increaseMoveCount(1);
+
         if(!checkMate) {
             this.nextTurn();
         }
@@ -123,11 +125,14 @@ public class ChessMatch {
     private void undoMove(Position sourceP, Position targetP, ChessPiece capturedPiece) {
         Piece originalPiece = this.board.removePiece(targetP);
         this.board.placePiece(originalPiece, sourceP);
+
         if(capturedPiece != null) {
             this.board.placePiece(capturedPiece, targetP);
             this.capturedPieces.remove(capturedPiece);
             this.piecesOnTheBoard.add(capturedPiece);
         }
+
+        ((ChessPiece) originalPiece).decreaseMoveCount(1);
     }
 
     public boolean[][] possibleMoves(ChessPosition sourceP) {
