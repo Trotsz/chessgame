@@ -7,7 +7,7 @@ import models.enums.Color;
 import models.entities.boardgame.Board;
 
 public final class King extends ChessPiece {
-    private static String id = "K";
+    private static final String ID = "K";
 
     public King() {}
 
@@ -16,7 +16,7 @@ public final class King extends ChessPiece {
     }
 
     public String getId() {
-        return id;
+        return ID;
     }
 
     @Override
@@ -111,6 +111,6 @@ public final class King extends ChessPiece {
 
     @Override
     public String toString() {
-        return id;
+        return ID;
     }
 }
