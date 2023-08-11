@@ -109,6 +109,7 @@ public class Pawn extends ChessPiece {
         return pMoves;
     }
 
+    @Override
     public String toString() {
         return ID;
     }
