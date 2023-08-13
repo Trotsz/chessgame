@@ -37,7 +37,7 @@ public class Board {
 
     public Piece piece(Position position) {
         if(!this.doesThePositionExist(position)) {
-            throw new BoardException("Error: The inserted position does not exist.");
+            throw new BoardException("Error: The inserted position " + position + " does not exist.");
         }
 
         return this.pieces[position.getRow()][position.getColumn()];

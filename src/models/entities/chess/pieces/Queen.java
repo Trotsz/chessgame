@@ -24,8 +24,6 @@ public class Queen extends ChessPiece {
 
         Position pos = new Position();
 
-        // FIXME: It actually works, now I just have to check the class before commiting and pushing it
-
         // Right
         pos.setValues(this.position.getRow(), this.position.getColumn() + 1);
 

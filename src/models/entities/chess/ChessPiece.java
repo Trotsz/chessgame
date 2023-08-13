@@ -23,12 +23,12 @@ public abstract class ChessPiece extends Piece {
         return this.moveCount;
     }
 
-    protected void increaseMoveCount(int amount) {
-        this.moveCount += amount;
+    protected void increaseMoveCount() {
+        this.moveCount += 1;
     }
 
-    protected void decreaseMoveCount(int amount) {
-        this.moveCount -= amount;
+    protected void decreaseMoveCount() {
+        this.moveCount -= 1;
     }
 
     public ChessPosition getChessPosition() {
