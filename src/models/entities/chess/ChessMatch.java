@@ -5,6 +5,7 @@ import models.entities.chess.pieces.*;
 import models.enums.Color;
 import models.exceptions.ChessException;
 
+import java.security.InvalidParameterException;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -15,6 +16,7 @@ public class ChessMatch {
     private boolean check;
     private boolean checkMate;
     private ChessPiece enPassantVulnerable;
+    private ChessPiece promoted;
 
     private List<Piece> piecesOnTheBoard;
     private List<Piece> capturedPieces;
@@ -46,6 +48,10 @@ public class ChessMatch {
 
     public ChessPiece getEnPassantVulnerable() {
         return this.enPassantVulnerable;
+    }
+
+    public ChessPiece getPromoted() {
+        return this.promoted;
     }
 
     public void setTurn(int turn) {
@@ -81,6 +87,20 @@ public class ChessMatch {
         this.validateTargetPosition(sourceP, targetP);
 
         ChessPiece capturedPiece = (ChessPiece) this.makeMove(sourceP, targetP);
+        ChessPiece movedPiece = (ChessPiece) this.board.piece(targetP);
+
+        // Promotion special move
+        this.promoted = null;
+
+        if(movedPiece instanceof Pawn) {
+            if(movedPiece.getColor() == Color.WHITE && targetP.getRow() == 0) {
+                this.promoted = movedPiece;
+                this.promoted = this.replacePromotedPiece('Q');
+            } else if(movedPiece.getColor() == Color.BLACK && targetP.getRow() == 7){
+                this.promoted = movedPiece;
+                this.promoted = this.replacePromotedPiece('Q');
+            }
+        }
 
         if(this.checkTest(this.currentPlayer)) {
             this.undoMove(sourceP, targetP, capturedPiece);
@@ -90,9 +110,7 @@ public class ChessMatch {
         this.check = this.checkTest(this.opponent(this.currentPlayer));
         this.checkMate = this.checkMateTest(this.opponent(this.currentPlayer));
 
-        ChessPiece movedPiece = (ChessPiece) this.board.piece(targetP);
-
-        ((ChessPiece) this.board.piece(targetP)).increaseMoveCount();
+        movedPiece.increaseMoveCount();
 
         if(!checkMate) {
             this.nextTurn();
@@ -140,6 +158,7 @@ public class ChessMatch {
             rook.increaseMoveCount();
         }
 
+        // En Passant
         if(p instanceof Pawn) {
             if(capturedPiece == null && sourceP.getColumn() != targetP.getColumn()) {
                 Position capPawnPos;
@@ -187,6 +206,7 @@ public class ChessMatch {
             rook.decreaseMoveCount();
         }
 
+        // En Passant
         if(originalPiece instanceof Pawn) {
             if(capturedPiece == this.enPassantVulnerable && sourceP.getColumn() != targetP.getColumn()) {
                 ChessPiece pawn = (ChessPiece) this.board.removePiece(targetP);
@@ -199,6 +219,46 @@ public class ChessMatch {
                 this.board.placePiece(pawn, capPawnPos);
             }
         }
+    }
+
+    public ChessPiece replacePromotedPiece(char id) {
+        if(this.promoted == null) {
+            throw new IllegalStateException("There is no piece to be promoted");
+        }
+
+        Position promotedPiecePosition = this.promoted.getChessPosition().toPosition();
+        ChessPosition promotedPieceChessPosition = ChessPosition.fromPosition(promotedPiecePosition);
+        ChessPiece piece = (ChessPiece) this.board.removePiece(promotedPiecePosition);
+        this.piecesOnTheBoard.remove(piece);
+
+        ChessPiece newPiece = this.newPiece(id, piece.getColor());
+
+        this.placeNewPiece(promotedPieceChessPosition.getColumn(), promotedPieceChessPosition.getRow(), newPiece);
+
+        return newPiece;
+    }
+
+    private ChessPiece newPiece(char id, Color color) {
+        ChessPiece piece;
+
+        switch(id) {
+            case 'Q':
+                piece = new Queen(color, this.board);
+                break;
+            case 'N':
+                piece = new Knight(color, this.board);
+                break;
+            case 'R':
+                piece = new Rook(color, this.board);
+                break;
+            case 'B':
+                piece = new Bishop(color, this.board);
+                break;
+            default:
+                throw new InvalidParameterException("The inserted piece does not exist");
+        }
+
+        return piece;
     }
 
     private void validateSourcePosition(Position sourceP) {

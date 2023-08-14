@@ -33,6 +33,11 @@ public class Program {
                 if(capturedPiece != null) {
                     capturedPieces.add(capturedPiece);
                 }
+                if(cm.getPromoted() != null) {
+                    System.out.println("Inserted the piece you want the Pawn to become (Q|R|N|B):");
+                    char id = sc.nextLine().toUpperCase().charAt(0);
+                    cm.replacePromotedPiece(id);
+                }
             } catch(BoardException e) {
                 System.out.println("\u001B[31m" + e.getMessage() + "\u001B[0m");
             } catch(InputMismatchException e) {
