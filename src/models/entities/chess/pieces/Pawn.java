@@ -2,16 +2,20 @@ package models.entities.chess.pieces;
 
 import models.entities.boardgame.Board;
 import models.entities.boardgame.Position;
+import models.entities.chess.ChessMatch;
 import models.entities.chess.ChessPiece;
+import models.entities.chess.ChessPosition;
 import models.enums.Color;
 
 public class Pawn extends ChessPiece {
     private static final String ID = "P";
+    private ChessMatch chessMatch;
 
     public Pawn() {}
 
-    public Pawn(Color color, Board board) {
+    public Pawn(Color color, Board board, ChessMatch chessMatch) {
         super(color, board);
+        this.chessMatch = chessMatch;
     }
 
     public String getId() {
@@ -63,6 +67,20 @@ public class Pawn extends ChessPiece {
                     pMoves[pos.getRow()][pos.getColumn()] = true;
                 }
             }
+
+            if(this.position.getRow() == 3) {
+                if(chessMatch.getEnPassantVulnerable() != null && this.getBoard().piece(this.position.getRow(), this.position.getColumn() - 1) == chessMatch.getEnPassantVulnerable()) {
+                    Position posOpponentPawn = new Position(this.position.getRow(), this.position.getColumn() - 1);
+
+                    pMoves[posOpponentPawn.getRow() - 1][posOpponentPawn.getColumn()] = true;
+                }
+
+                if(chessMatch.getEnPassantVulnerable() != null && this.getBoard().piece(this.position.getRow(), this.position.getColumn() + 1) == chessMatch.getEnPassantVulnerable()) {
+                    Position posOpponentPawn = new Position(this.position.getRow(), this.position.getColumn() + 1);
+
+                    pMoves[posOpponentPawn.getRow() - 1][posOpponentPawn.getColumn()] = true;
+                }
+            }
         } else {
             pos.setValues(this.position.getRow() + 1, this.position.getColumn());
 
@@ -103,8 +121,21 @@ public class Pawn extends ChessPiece {
                     pMoves[pos.getRow()][pos.getColumn()] = true;
                 }
             }
-        }
 
+            if(this.position.getRow() == 4) {
+                if(chessMatch.getEnPassantVulnerable() != null && this.getBoard().piece(this.position.getRow(), this.position.getColumn() + 1) == chessMatch.getEnPassantVulnerable()) {
+                    Position posOpponentPawn = new Position(this.position.getRow(), this.position.getColumn() + 1);
+
+                    pMoves[posOpponentPawn.getRow() + 1][posOpponentPawn.getColumn()] = true;
+                }
+
+                if(chessMatch.getEnPassantVulnerable() != null && this.getBoard().piece(this.position.getRow(), this.position.getColumn() - 1) == chessMatch.getEnPassantVulnerable()) {
+                    Position posOpponentPawn = new Position(this.position.getRow(), this.position.getColumn() - 1);
+
+                    pMoves[posOpponentPawn.getRow() + 1][posOpponentPawn.getColumn()] = true;
+                }
+            }
+        }
 
         return pMoves;
     }
