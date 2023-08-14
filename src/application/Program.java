@@ -34,8 +34,12 @@ public class Program {
                     capturedPieces.add(capturedPiece);
                 }
                 if(cm.getPromoted() != null) {
-                    System.out.println("Inserted the piece you want the Pawn to become (Q|R|N|B):");
-                    char id = sc.nextLine().toUpperCase().charAt(0);
+                    char id;
+                    do {
+                        System.out.println("Inserted the piece you want the Pawn to become (Q|R|N|B):");
+                        id = sc.nextLine().toUpperCase().charAt(0);
+                    } while (id != 'Q' && id != 'N' && id != 'B' && id != 'R');
+
                     cm.replacePromotedPiece(id);
                 }
             } catch(BoardException e) {

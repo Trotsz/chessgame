@@ -5,7 +5,6 @@ import models.entities.chess.pieces.*;
 import models.enums.Color;
 import models.exceptions.ChessException;
 
-import java.security.InvalidParameterException;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -255,7 +254,7 @@ public class ChessMatch {
                 piece = new Bishop(color, this.board);
                 break;
             default:
-                throw new InvalidParameterException("The inserted piece does not exist");
+                throw new ChessException("The inserted piece does not exist");
         }
 
         return piece;
